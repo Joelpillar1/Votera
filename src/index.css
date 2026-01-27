@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+@plugin "tailwindcss-animate";
+@import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@600;700&family=Thasadith:wght@400;700&family=Lato:wght@300;400;700&display=swap');
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-display: "Josefin Sans", sans-serif;
+  --font-sans: "Thasadith", sans-serif;
+  --font-body: "Lato", sans-serif;
+
+  --color-background: hsl(0 0% 0%);
+  --color-foreground: hsl(0 0% 100%);
+
+  --color-card: hsl(0 0% 5%);
+  --color-card-foreground: hsl(0 0% 98%);
+
+  --color-popover: hsl(0 0% 5%);
+  --color-popover-foreground: hsl(0 0% 98%);
+
+  --color-primary: #6D28D9;
+  --color-primary-foreground: #FFFFFF;
+
+  --color-secondary: #D97706;
+  --color-secondary-foreground: #FFFFFF;
+
+  --color-muted: hsl(240 4% 16%);
+  --color-muted-foreground: hsl(240 5% 64.9%);
+
+  --color-accent: #D97706;
+  --color-accent-foreground: #FFFFFF;
+
+  --color-destructive: hsl(0 62.8% 30.6%);
+  --color-destructive-foreground: hsl(0 0% 98%);
+
+  --color-border: hsl(240 4% 16%);
+  --color-input: hsl(240 4% 16%);
+  --color-ring: #6D28D9;
+
+  --radius: 0.75rem;
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0
+    }
+
+    to {
+      height: var(--radix-accordion-content-height)
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height)
+    }
+
+    to {
+      height: 0
+    }
+  }
+}
+
+@layer utilities {
+  .glass-panel {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-xl;
+  }
+
+  .glass-card {
+    @apply bg-black/40 backdrop-blur-md border border-white/5 transition-all duration-300 hover:border-primary/50 hover:bg-black/60;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 20px rgba(109, 40, 217, 0.5);
+  }
+}
+
+:root {
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: hsl(0 0% 0%);
+  --foreground: hsl(0 0% 100%);
+  --card: hsl(0 0% 5%);
+  --card-foreground: hsl(0 0% 98%);
+  --popover: hsl(0 0% 5%);
+  --popover-foreground: hsl(0 0% 98%);
+  --primary: #6D28D9;
+  --primary-foreground: #FFFFFF;
+  --secondary: #D97706;
+  --secondary-foreground: #FFFFFF;
+  --muted: hsl(240 4% 16%);
+  --muted-foreground: hsl(240 5% 64.9%);
+  --accent: #D97706;
+  --accent-foreground: #FFFFFF;
+  --destructive: hsl(0 62.8% 30.6%);
+  --border: hsl(240 4% 16%);
+  --input: hsl(240 4% 16%);
+  --ring: #6D28D9;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display;
+  }
+}
