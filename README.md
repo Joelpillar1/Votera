@@ -1,20 +1,39 @@
+# Voterax
+
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+  <h3>Trust, Earned. Decisions, Decentralized.</h3>
+  <p>A participation-first coordination platform where influence is earned through contribution and long-term reputation.</p>
 </div>
 
-# Run and deploy your AI Studio app
+## Overview
 
-This contains everything you need to run your app locally.
+Voterax is a community-driven platform designed to bring transparency, fairness, and accountability to how bounties, campaigns, and competitive programs are executed and decided.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1swAPQMpwz5Ug7QwyVMRE_NKYFhxvBltI
+## Features
+
+- **Campaign Points (CP):** Earned by completing tasks within specific campaigns.
+- **Reputation Points (RP):** Global, non-transferable reputation that compounds over time.
+- **Combustion Voting:** Influence is weighed by `CP + (0.2 * RP)`. Votes burn points, ensuring intentionality.
+- **Sleek UI:** Dark mode, glassmorphism design, and responsive layout.
 
 ## Run Locally
 
-**Prerequisites:**  Node.js
-
+**Prerequisites:** Node.js
 
 1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+   ```bash
+   npm install
+   ```
+
+2. Run the dev server:
+   ```bash
+   npm run dev
+   ```
+
+## Tech Stack
+
+- **Framework:** React (Vite)
+- **Styling:** Tailwind CSS (v4)
+- **Icons:** Lucide React
+- **Animation:** Framer Motion
+- **Components:** Shadcn UI
