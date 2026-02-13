@@ -10,39 +10,59 @@ import Leaderboard from './pages/Leaderboard';
 import Settings from './pages/Settings';
 import LandingPage from './pages/LandingPage';
 import Profile from './pages/Profile';
-import { Button } from './components/ui/button';
-import { Campaign, CampaignStatus } from './types';
+import TaskSubmissionPage from './pages/TaskSubmissionPage';
+import CampaignResults from './pages/CampaignResults';
+import AuthModal from './components/auth/AuthModal';
+import { Campaign, CampaignStatus, UserRole } from './types';
 import { mockCampaigns, mockTasks } from './data/mockData';
-
-const PlaceholderPage = ({ title }: { title: string }) => (
-    <div className="flex flex-col items-center justify-center h-[50vh] text-center space-y-4">
-        <div className="h-20 w-20 rounded-full bg-primary/10 flex items-center justify-center animate-pulse">
-            <span className="text-4xl">🚧</span>
-        </div>
-        <h2 className="text-2xl font-bold text-white">{title}</h2>
-        <p className="text-muted-foreground max-w-md">
-            This module is currently under active development. High-fidelity prototypes will be deployed shortly.
-        </p>
-        <Button variant="outline">Return to Dashboard</Button>
-    </div>
-);
 
 const App: React.FC = () => {
     const [navState, setNavState] = useState<{ page: string; data?: any }>({ page: 'landing' });
+    const [walletAddress, setWalletAddress] = useState<string | null>(null);
+    const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+    const [authMode, setAuthMode] = useState<'login' | 'signup'>('login');
+
+    // Mock current user - Contributors are the primary users of the platform
+    // Change to UserRole.ORGANIZER to test organizer view (campaign creation)
+    const [currentUserRole] = useState<UserRole>(UserRole.CONTRIBUTOR);
 
     const handleNavigate = (page: string, data?: any) => {
         setNavState({ page, data });
+        window.scrollTo(0, 0);
+    };
+
+    const handleLogin = (address: string) => {
+        setWalletAddress(address);
+        if (navState.page === 'landing') {
+            handleNavigate('dashboard');
+        }
+    };
+
+    const handleConnect = (mode: 'login' | 'signup' = 'login') => {
+        setAuthMode(mode);
+        setIsAuthModalOpen(true);
     };
 
     const renderPage = () => {
         switch (navState.page) {
             case 'landing':
-                return <LandingPage onEnterApp={() => handleNavigate('dashboard')} />;
+                return <LandingPage onConnect={handleConnect} />;
             case 'dashboard':
                 return <Dashboard onNavigate={handleNavigate} />;
             case 'campaign-details':
                 if (navState.data) {
-                    return <CampaignDetails campaign={navState.data as Campaign} onBack={() => handleNavigate('campaigns')} />;
+                    return <CampaignDetails
+                        campaign={navState.data as Campaign}
+                        onBack={() => handleNavigate('campaigns')}
+                        onResults={() => handleNavigate('campaign-results', navState.data)}
+                    />;
+                }
+                return <Dashboard onNavigate={handleNavigate} />;
+            case 'task-submission':
+                return <TaskSubmissionPage onBack={() => handleNavigate('campaign-details', navState.data?.campaign)} />;
+            case 'campaign-results':
+                if (navState.data) {
+                    return <CampaignResults campaign={navState.data as Campaign} onBack={() => handleNavigate('campaigns')} />;
                 }
                 return <Dashboard onNavigate={handleNavigate} />;
             case 'create-campaign':
@@ -77,7 +97,7 @@ const App: React.FC = () => {
                     handleNavigate('campaigns');
                 }} />;
             case 'campaigns':
-                return <Campaigns onNavigate={handleNavigate} />;
+                return <Campaigns onNavigate={handleNavigate} userRole={currentUserRole} />;
             case 'governance':
                 return <Governance onNavigate={handleNavigate} />;
             case 'leaderboard':
@@ -93,14 +113,23 @@ const App: React.FC = () => {
         }
     };
 
-    if (navState.page === 'landing') {
-        return renderPage();
-    }
-
     return (
-        <Shell currentPage={navState.page} onNavigate={handleNavigate}>
-            {renderPage()}
-        </Shell>
+        <>
+            {navState.page === 'landing' ? (
+                renderPage()
+            ) : (
+                <Shell currentPage={navState.page} onNavigate={handleNavigate} walletAddress={walletAddress} onConnect={() => handleConnect('login')}>
+                    {renderPage()}
+                </Shell>
+            )}
+
+            <AuthModal
+                isOpen={isAuthModalOpen}
+                onClose={() => setIsAuthModalOpen(false)}
+                onLogin={handleLogin}
+                initialMode={authMode}
+            />
+        </>
     );
 };
 

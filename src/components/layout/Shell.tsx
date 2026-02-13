@@ -7,12 +7,14 @@ interface ShellProps {
     children: React.ReactNode;
     currentPage: string;
     onNavigate: (page: string) => void;
+    walletAddress?: string | null;
+    onConnect?: () => void;
 }
 
-const Shell: React.FC<ShellProps> = ({ children, currentPage, onNavigate }) => {
+const Shell: React.FC<ShellProps> = ({ children, currentPage, onNavigate, walletAddress = null, onConnect = () => { } }) => {
     return (
         <div className="min-h-screen bg-background text-white selection:bg-primary/30">
-            <Navbar activePath={currentPage} onNavigate={onNavigate} />
+            <Navbar activePath={currentPage} onNavigate={onNavigate} walletAddress={walletAddress} onConnect={onConnect} />
 
             <main className="pt-28 pb-12 px-6 relative min-h-screen">
                 <div className="fixed inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 pointer-events-none z-0 mix-blend-overlay"></div>

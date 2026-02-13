@@ -31,6 +31,10 @@ export interface Campaign {
   coverImage?: string;
   budget?: number;
   verified?: boolean;
+  organizer?: {
+    name: string;
+    avatar: string;
+  };
 }
 
 export interface Task {

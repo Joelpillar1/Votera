@@ -125,4 +125,16 @@
   h6 {
     @apply font-display;
   }
+
+  /* Hide scrollbar but keep functionality */
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  * {
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+  }
 }

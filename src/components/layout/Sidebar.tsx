@@ -22,7 +22,7 @@ const Sidebar: React.FC<SidebarProps> = ({ className, activePath = 'dashboard', 
     const navItems = [
         { name: 'Dashboard', icon: LayoutDashboard, path: 'dashboard' },
         { name: 'Campaigns', icon: Hexagon, path: 'campaigns' },
-        { name: 'Governance', icon: Vote, path: 'governance' },
+        { name: 'Campaign Forum', icon: Vote, path: 'governance' },
         { name: 'Leaderboard', icon: Trophy, path: 'leaderboard' },
         { name: 'Activity', icon: Activity, path: 'activity' },
     ];
@@ -70,7 +70,6 @@ const Sidebar: React.FC<SidebarProps> = ({ className, activePath = 'dashboard', 
                     </div>
                     <div className="flex-1 overflow-hidden">
                         <div className="text-sm font-bold text-white truncate group-hover:text-primary transition-colors">Alice C.</div>
-                        <div className="text-xs text-gray-500 truncate">1,250 RP</div>
                     </div>
                     <div
                         className="p-1.5 rounded-full hover:bg-white/10 transition-colors"

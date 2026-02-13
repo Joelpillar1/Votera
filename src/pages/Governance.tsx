@@ -7,7 +7,6 @@ import { Vote, FileText, Activity, Clock, ThumbsUp, ThumbsDown, MessageSquare, A
 import { motion, AnimatePresence } from 'framer-motion';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Slider } from '@/components/ui/slider';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
 
 interface GovernanceProps {
@@ -151,7 +150,7 @@ const Governance: React.FC<GovernanceProps> = ({ onNavigate }) => {
                                 <DialogHeader>
                                     <DialogTitle>Combustion Voting</DialogTitle>
                                     <DialogDescription>
-                                        Select your stance and how much Reputation (RP) you want to burn to influence the outcome.
+                                        Choose how much CP you want to burn to support this proposal.
                                     </DialogDescription>
                                 </DialogHeader>
 
@@ -160,20 +159,6 @@ const Governance: React.FC<GovernanceProps> = ({ onNavigate }) => {
                                         <div className="p-3 bg-white/5 rounded-lg border border-white/10">
                                             <span className="text-xs text-muted-foreground uppercase">Proposal</span>
                                             <div className="text-white font-medium line-clamp-2">{selectedProposal.title}</div>
-                                        </div>
-
-                                        <div className="space-y-3">
-                                            <Label>Your Stance</Label>
-                                            <RadioGroup defaultValue="for" onValueChange={(val) => setVoteSide(val as 'for' | 'against')} className="grid grid-cols-2 gap-4">
-                                                <div className="flex items-center space-x-2 border border-white/10 rounded-lg p-4 cursor-pointer hover:bg-white/5 has-[[data-state=checked]]:border-green-500/50 has-[[data-state=checked]]:bg-green-500/10 transition-all">
-                                                    <RadioGroupItem value="for" id="r-for" className="text-green-500 border-green-500" />
-                                                    <Label htmlFor="r-for" className="cursor-pointer flex-1 font-bold text-green-400">Vote FOR</Label>
-                                                </div>
-                                                <div className="flex items-center space-x-2 border border-white/10 rounded-lg p-4 cursor-pointer hover:bg-white/5 has-[[data-state=checked]]:border-red-500/50 has-[[data-state=checked]]:bg-red-500/10 transition-all">
-                                                    <RadioGroupItem value="against" id="r-against" className="text-red-500 border-red-500" />
-                                                    <Label htmlFor="r-against" className="cursor-pointer flex-1 font-bold text-red-400">Vote AGAINST</Label>
-                                                </div>
-                                            </RadioGroup>
                                         </div>
 
                                         <div className="space-y-4">
@@ -199,7 +184,7 @@ const Governance: React.FC<GovernanceProps> = ({ onNavigate }) => {
                                 <DialogFooter>
                                     <Button variant="ghost" onClick={handleClose} disabled={voteStatus === 'voting'}>Cancel</Button>
                                     <Button
-                                        className={`w-full sm:w-auto ${voteSide === 'for' ? 'bg-green-600 hover:bg-green-500' : 'bg-red-600 hover:bg-red-500'}`}
+                                        className="w-full sm:w-auto bg-green-600 hover:bg-green-500"
                                         onClick={handleVote}
                                         disabled={voteStatus === 'voting'}
                                     >
@@ -221,7 +206,7 @@ const Governance: React.FC<GovernanceProps> = ({ onNavigate }) => {
             {/* Header / Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="col-span-1 md:col-span-2 space-y-2">
-                    <h1 className="text-4xl font-bold font-display text-white">Governance Forum</h1>
+                    <h1 className="text-4xl font-bold font-display text-white">Campaign Forum</h1>
                     <p className="text-muted-foreground text-lg">
                         Shape the future of the protocol. Your Reputation Points (RP) determine your influence.
                     </p>

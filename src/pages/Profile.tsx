@@ -1,7 +1,30 @@
 import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { User, Activity, Clock, Trophy, Target, ShieldCheck, GitCommit, FileCode, Hash, ArrowUpRight } from 'lucide-react';
+import {
+    User,
+    Clock,
+    Trophy,
+    Target,
+    ShieldCheck,
+    Hash,
+    ArrowUpRight,
+    Flame,
+    CheckCircle2,
+    Calendar,
+    Award,
+    TrendingUp,
+    Briefcase,
+    Rocket,
+    Star,
+    Landmark,
+    Github,
+    Linkedin,
+    Twitter,
+    ExternalLink,
+    FileCheck,
+    Link as LinkIcon
+} from 'lucide-react';
 import { motion } from 'framer-motion';
 import { mockUsers, mockContributions, mockCampaigns, mockTasks } from '@/data/mockData';
 
@@ -10,203 +33,304 @@ interface ProfileProps {
 }
 
 const Profile: React.FC<ProfileProps> = ({ onNavigate }) => {
-    // Mocking the logged-in user as User ID 1 (Alice Contributor)
+    // Mock logged-in user
     const user = mockUsers[0];
 
-    // Derived stats
+    // Calculate stats
     const userContributions = mockContributions.filter(c => c.user_id === user.id);
     const approvedContributions = userContributions.filter(c => c.status === 'approved');
-    const totalEarnings = approvedContributions.reduce((acc, curr) => {
-        const task = mockTasks.find(t => t.id === curr.task_id);
-        return acc + (task ? task.CP_value : 0);
-    }, 0);
+    const totalRPEarned = 2450; // Mock total earned
+    const totalRPUsed = 650; // Mock RP used in voting
+    const rpRemaining = user.RP_balance;
 
-    const recentActivity = [
-        { id: 1, type: 'EARN', amount: 150, source: 'Task: Playground Equipment', date: '2h ago', icon: Target },
-        { id: 2, type: 'EARN', amount: 100, source: 'Task: Park Layout Sketch', date: '1d ago', icon: FileCode },
-        { id: 3, type: 'BURN', amount: -650, source: 'Vote: Community Park Layout', date: '3d ago', icon: Flame },
-        { id: 4, type: 'EARN', amount: 50, source: 'Task: Community Survey', date: '5d ago', icon: Hash },
+    // Mock campaign history
+    const campaignHistory = [
+        { id: 1, name: 'DeFi Educational Series', role: 'Contributor', contributions: 3, rpEarned: 450, status: 'completed', date: 'Jan 2024' },
+        { id: 2, name: 'Community Park Design', role: 'Lead Contributor', contributions: 5, rpEarned: 800, status: 'completed', date: 'Dec 2023' },
+        { id: 3, name: 'DAO Governance Framework', role: 'Contributor', contributions: 2, rpEarned: 300, status: 'active', date: 'Ongoing' },
     ];
 
-    // Helper component for icon import (Flame wasn't imported initially)
-    function Flame(props: any) {
-        return (
-            <svg
-                {...props}
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-            >
-                <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-2.24-4.286-4-6 2.048 1.024 3.796 3.037 5 5 2.002-3.004 4.024-5.024 6-6-2.002 3.004-3.5 6-3.5 8.5a6 6 0 1 1-11-2.5c1.096 1.096 2.5 2.5 4 2.5z" />
-            </svg>
-        )
-    }
+    // Mock contribution timeline
+    const contributionTimeline = [
+        { id: 1, date: '2024-01-28', campaign: 'DeFi Educational Series', task: 'Smart Contract Audit Documentation', rp: 150, status: 'approved' },
+        { id: 2, date: '2024-01-25', campaign: 'DeFi Educational Series', task: 'Tutorial Video Script', rp: 100, status: 'approved' },
+        { id: 3, date: '2024-01-20', campaign: 'Community Park Design', task: 'Playground Equipment Design', rp: 200, status: 'approved' },
+        { id: 4, date: '2024-01-15', campaign: 'DAO Governance Framework', task: 'Voting Mechanism Research', rp: 150, status: 'approved' },
+        { id: 5, date: '2024-01-10', campaign: 'Community Park Design', task: 'Community Survey Analysis', rp: 100, status: 'approved' },
+    ];
+
+    // Mock badges
+    const badges = [
+        { name: 'Early Adopter', icon: Rocket, bgColor: 'bg-blue-500/10', borderColor: 'border-blue-500/20', iconColor: 'text-blue-400' },
+        { name: 'Top Contributor', icon: Star, bgColor: 'bg-yellow-500/10', borderColor: 'border-yellow-500/20', iconColor: 'text-yellow-400' },
+        { name: 'Governance Expert', icon: Landmark, bgColor: 'bg-purple-500/10', borderColor: 'border-purple-500/20', iconColor: 'text-purple-400' },
+    ];
 
     return (
-        <div className="space-y-8 max-w-6xl mx-auto">
-            {/* Header / Identity Card */}
-            <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-b from-[#111] to-black border border-white/5 p-8 md:p-12">
-                <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay"></div>
-                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none -translate-y-1/2 translate-x-1/2"></div>
+        <div className="space-y-8 max-w-7xl mx-auto pb-12">
+            {/* Profile Header */}
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#0a0a0a] via-[#111] to-black border border-white/10 p-6 md:p-8">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
 
-                <div className="relative z-10 flex flex-col md:flex-row items-center md:items-start gap-8">
-                    {/* Avatar */}
-                    <div className="relative group">
-                        <div className="h-32 w-32 rounded-full p-1 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500">
-                            <div className="h-full w-full rounded-full bg-black border-4 border-black flex items-center justify-center overflow-hidden">
-                                <span className="text-4xl font-bold font-display text-white">{user.name.charAt(0)}</span>
+                <div className="relative z-10">
+                    <div className="flex flex-col md:flex-row items-start gap-6">{/* Reduced gap from 8 to 6 and removed mb-8 */}
+                        {/* Avatar */}
+                        <div className="relative">
+                            <div className="h-24 w-24 rounded-2xl bg-gradient-to-br from-primary/20 to-blue-500/20 border border-primary/30 flex items-center justify-center">
+                                <span className="text-4xl font-bold text-white">{user.name.charAt(0)}</span>
+                            </div>
+                            <div className="absolute -bottom-2 -right-2 bg-green-500 rounded-full p-1.5 border-2 border-black">
+                                <ShieldCheck className="h-4 w-4 text-white" />
                             </div>
                         </div>
-                        <div className="absolute -bottom-2 -right-2 bg-black rounded-full p-1.5 border border-white/10">
-                            <ShieldCheck className="h-6 w-6 text-green-400 fill-green-400/20" />
-                        </div>
-                    </div>
 
-                    <div className="text-center md:text-left flex-1">
-                        <div className="flex flex-col md:flex-row items-center gap-4 mb-2">
-                            <h1 className="text-4xl font-bold font-display text-white">{user.name}</h1>
-                            <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs font-mono uppercase tracking-widest text-gray-400">
-                                {user.role}
-                            </span>
-                        </div>
-                        <p className="text-gray-400 max-w-lg mb-6 flex items-center justify-center md:justify-start gap-2">
-                            <Hash className="h-4 w-4 opacity-50" />
-                            <span className="font-mono text-sm">0x71C...9A23</span>
-                        </p>
-
-                        <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                            <div className="flex items-center gap-3 px-5 py-3 rounded-xl bg-indigo-500/10 border border-indigo-500/20">
-                                <Trophy className="h-5 w-5 text-indigo-400" />
-                                <div>
-                                    <div className="text-2xl font-bold text-white leading-none">{user.RP_balance}</div>
-                                    <div className="text-[10px] uppercase tracking-widest text-indigo-300/70 font-bold mt-1">Reputation Score</div>
+                        {/* Name & Wallet */}
+                        <div className="flex-1">
+                            <h1 className="text-4xl font-bold text-white mb-2">{user.name}</h1>
+                            <div className="flex items-center gap-3 mb-4">
+                                <span className="px-3 py-1 rounded-lg bg-white/5 border border-white/10 text-xs font-bold uppercase tracking-wider text-gray-400">
+                                    {user.role}
+                                </span>
+                                <div className="flex items-center gap-2 text-gray-500">
+                                    <Hash className="h-4 w-4" />
+                                    <span className="font-mono text-sm">0x71C7...9A23</span>
                                 </div>
                             </div>
-                            <div className="flex items-center gap-3 px-5 py-3 rounded-xl bg-white/5 border border-white/10">
-                                <Target className="h-5 w-5 text-gray-400" />
-                                <div>
-                                    <div className="text-2xl font-bold text-white leading-none">{userContributions.length}</div>
-                                    <div className="text-[10px] uppercase tracking-widest text-gray-500 font-bold mt-1">Total Contributions</div>
-                                </div>
+
+                            {/* Badges */}
+                            <div className="flex flex-wrap gap-3">
+                                {badges.map((badge) => {
+                                    const IconComponent = badge.icon;
+                                    return (
+                                        <div
+                                            key={badge.name}
+                                            className={`flex items-center gap-2 px-3 py-2 rounded-xl ${badge.bgColor} border ${badge.borderColor}`}
+                                        >
+                                            <IconComponent className={`h-4 w-4 ${badge.iconColor}`} />
+                                            <span className="text-xs font-bold text-white">{badge.name}</span>
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
-                    </div>
 
-                    <div className="text-right hidden md:block">
-                        <Button variant="outline" className="border-white/10 hover:bg-white/5 gap-2" onClick={() => onNavigate('dashboard')}>
-                            Return to Dashboard <ArrowUpRight className="h-4 w-4" />
-                        </Button>
+                        {/* Verified Links - Stacked */}
+                        <div className="flex flex-col gap-2 min-w-[200px] self-start">
+                            {/* GitHub */}
+                            <a
+                                href="https://github.com/alexjohnson"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all"
+                            >
+                                <Github className="h-3.5 w-3.5 text-gray-400" />
+                                <span className="text-xs font-medium text-white flex-1">GitHub</span>
+                                <CheckCircle2 className="h-3 w-3 text-green-400" />
+                            </a>
+
+                            {/* LinkedIn */}
+                            <a
+                                href="https://linkedin.com/in/alexjohnson"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all"
+                            >
+                                <Linkedin className="h-3.5 w-3.5 text-blue-400" />
+                                <span className="text-xs font-medium text-white flex-1">LinkedIn</span>
+                                <CheckCircle2 className="h-3 w-3 text-green-400" />
+                            </a>
+
+                            {/* X (Twitter) */}
+                            <a
+                                href="https://x.com/alexjohnson"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all"
+                            >
+                                <Twitter className="h-3.5 w-3.5 text-sky-400" />
+                                <span className="text-xs font-medium text-white flex-1">X</span>
+                                <CheckCircle2 className="h-3 w-3 text-green-400" />
+                            </a>
+
+                            {/* Portfolio */}
+                            <a
+                                href="https://alexjohnson.dev"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all"
+                            >
+                                <LinkIcon className="h-3.5 w-3.5 text-purple-400" />
+                                <span className="text-xs font-medium text-white flex-1">Portfolio</span>
+                                <CheckCircle2 className="h-3 w-3 text-green-400" />
+                            </a>
+
+                            {/* Campaign Evidence */}
+                            <a
+                                href="#"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                }}
+                                className="group flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 border border-white/10 hover:border-white/20 hover:bg-white/10 transition-all"
+                            >
+                                <FileCheck className="h-3.5 w-3.5 text-green-400" />
+                                <span className="text-xs font-medium text-white flex-1">Evidence</span>
+                                <CheckCircle2 className="h-3 w-3 text-green-400" />
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                {/* Left Column: Ledger / History */}
-                <div className="lg:col-span-2 space-y-8">
-                    <div className="flex items-center justify-between">
-                        <h2 className="text-2xl font-bold text-white font-display">Reputation Ledger</h2>
-                        <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-white">View Full History</Button>
-                    </div>
-
-                    <div className="space-y-4">
-                        {recentActivity.map((activity) => (
-                            <motion.div
-                                key={activity.id}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                className="group relative overflow-hidden rounded-xl bg-[#0c0c0c] border border-white/5 p-4 hover:border-white/10 transition-all"
-                            >
-                                <div className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                                <div className="flex items-center gap-4">
-                                    <div className={`h-12 w-12 rounded-full flex items-center justify-center border ${activity.type === 'EARN'
-                                            ? 'bg-green-500/10 border-green-500/20 text-green-400'
-                                            : 'bg-red-500/10 border-red-500/20 text-red-400'
-                                        }`}>
-                                        <activity.icon className="h-5 w-5" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <div className="flex justify-between items-start">
-                                            <h4 className="font-bold text-gray-200">{activity.source}</h4>
-                                            <span className={`font-mono font-bold ${activity.type === 'EARN' ? 'text-green-400' : 'text-red-400'}`}>
-                                                {activity.amount > 0 ? '+' : ''}{activity.amount} RP
-                                            </span>
-                                        </div>
-                                        <div className="flex justify-between items-center mt-1">
-                                            <span className="text-xs text-muted-foreground flex items-center gap-1">
-                                                {activity.type === 'EARN' ? 'Contribution Validated' : 'Voting Power Burned'}
-                                            </span>
-                                            <span className="text-xs text-gray-600 flex items-center gap-1">
-                                                <Clock className="h-3 w-3" /> {activity.date}
-                                            </span>
-                                        </div>
-                                    </div>
+            {/* Reputation Summary */}
+            <div>
+                <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                    <Trophy className="h-6 w-6 text-primary" />
+                    Reputation Summary
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {/* Total RP Earned */}
+                    <Card className="bg-[#0a0a0a] border-white/10">
+                        <CardContent className="p-6">
+                            <div className="flex items-center gap-3 mb-3">
+                                <div className="h-10 w-10 rounded-lg bg-green-500/10 flex items-center justify-center">
+                                    <TrendingUp className="h-5 w-5 text-green-400" />
                                 </div>
+                                <div className="text-xs text-gray-500 uppercase font-bold tracking-wider">Total Earned</div>
+                            </div>
+                            <div className="text-4xl font-bold text-white mb-1">{totalRPEarned.toLocaleString()}</div>
+                            <div className="text-sm text-gray-500">Reputation Points</div>
+                        </CardContent>
+                    </Card>
+
+                    {/* RP Used */}
+                    <Card className="bg-[#0a0a0a] border-white/10">
+                        <CardContent className="p-6">
+                            <div className="flex items-center gap-3 mb-3">
+                                <div className="h-10 w-10 rounded-lg bg-orange-500/10 flex items-center justify-center">
+                                    <Flame className="h-5 w-5 text-orange-400" />
+                                </div>
+                                <div className="text-xs text-gray-500 uppercase font-bold tracking-wider">RP Used</div>
+                            </div>
+                            <div className="text-4xl font-bold text-white mb-1">{totalRPUsed.toLocaleString()}</div>
+                            <div className="text-sm text-gray-500">In Governance Voting</div>
+                        </CardContent>
+                    </Card>
+
+                    {/* RP Remaining */}
+                    <Card className="bg-[#0a0a0a] border-white/10">
+                        <CardContent className="p-6">
+                            <div className="flex items-center gap-3 mb-3">
+                                <div className="h-10 w-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                                    <ShieldCheck className="h-5 w-5 text-primary" />
+                                </div>
+                                <div className="text-xs text-gray-500 uppercase font-bold tracking-wider">Available</div>
+                            </div>
+                            <div className="text-4xl font-bold text-primary mb-1">{rpRemaining.toLocaleString()}</div>
+                            <div className="text-sm text-gray-500">Current Voting Power</div>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
+
+            {/* Campaign History & Contribution Timeline - Side by Side */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Campaign History */}
+                <div>
+                    <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                        <Briefcase className="h-6 w-6 text-primary" />
+                        Campaign History
+                    </h2>
+                    <div className="space-y-4">
+                        {campaignHistory.map((campaign, index) => (
+                            <motion.div
+                                key={campaign.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                            >
+                                <Card className="bg-[#0a0a0a] border-white/10 hover:border-white/20 transition-all cursor-pointer">
+                                    <CardContent className="p-6">
+                                        <div className="flex items-start justify-between mb-4">
+                                            <div className="flex-1">
+                                                <div className="flex items-center gap-3 mb-2">
+                                                    <h3 className="text-lg font-bold text-white">{campaign.name}</h3>
+                                                    <span className={`px-2 py-1 rounded-lg text-xs font-bold uppercase tracking-wider ${campaign.status === 'completed'
+                                                        ? 'bg-green-500/10 text-green-400 border border-green-500/20'
+                                                        : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                                                        }`}>
+                                                        {campaign.status}
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center gap-2 text-sm text-gray-500">
+                                                    <Award className="h-4 w-4" />
+                                                    <span>{campaign.role}</span>
+                                                    <span className="text-gray-700">•</span>
+                                                    <Calendar className="h-4 w-4" />
+                                                    <span>{campaign.date}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/5">
+                                            <div>
+                                                <div className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">Contributions</div>
+                                                <div className="text-2xl font-bold text-white">{campaign.contributions}</div>
+                                            </div>
+                                            <div className="text-right">
+                                                <div className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">RP Earned</div>
+                                                <div className="text-2xl font-bold text-green-400">+{campaign.rpEarned}</div>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
                             </motion.div>
                         ))}
                     </div>
                 </div>
 
-                {/* Right Column: Active Submissions / Status */}
-                <div className="space-y-8">
-                    <h2 className="text-2xl font-bold text-white font-display">Recent Submissions</h2>
-                    <Card className="bg-[#0c0c0c] border-white/5">
-                        <CardContent className="p-0">
-                            {userContributions.length > 0 ? (
-                                <div className="divide-y divide-white/5">
-                                    {userContributions.slice(0, 3).map((contrib) => {
-                                        const taskKey = mockTasks.find(t => t.id === contrib.task_id);
-                                        return (
-                                            <div key={contrib.id} className="p-5 hover:bg-white/[0.02] transition-colors">
-                                                <div className="flex justify-between items-start mb-2">
-                                                    <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border ${contrib.status === 'approved' ? 'bg-green-500/10 text-green-400 border-green-500/20' :
-                                                            contrib.status === 'pending' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' :
-                                                                'bg-red-500/10 text-red-400 border-red-500/20'
-                                                        }`}>
-                                                        {contrib.status}
-                                                    </span>
-                                                    <span className="text-xs text-gray-500">{new Date(contrib.timestamp).toLocaleDateString()}</span>
-                                                </div>
-                                                <h4 className="font-medium text-gray-300 text-sm mb-3">
-                                                    {taskKey?.description || 'Unknown Task'}
-                                                </h4>
-                                                <div className="flex items-center gap-2 text-xs text-gray-500">
-                                                    <FileCode className="h-3 w-3" />
-                                                    <span className="truncate max-w-[150px]">{contrib.submission_proof}</span>
+                {/* Contribution Timeline */}
+                <div>
+                    <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
+                        <Target className="h-6 w-6 text-primary" />
+                        Contribution Timeline
+                    </h2>
+                    <Card className="bg-[#0a0a0a] border-white/10">
+                        <CardContent className="p-6">
+                            <div className="space-y-6">
+                                {contributionTimeline.map((contribution, index) => (
+                                    <div key={contribution.id} className="relative">
+                                        {/* Timeline line */}
+                                        {index !== contributionTimeline.length - 1 && (
+                                            <div className="absolute left-[15px] top-8 bottom-0 w-px bg-white/10" />
+                                        )}
+
+                                        <div className="flex gap-4">
+                                            {/* Timeline dot */}
+                                            <div className="relative z-10 h-8 w-8 rounded-full bg-green-500/10 border-2 border-green-500/30 flex items-center justify-center shrink-0">
+                                                <CheckCircle2 className="h-4 w-4 text-green-400" />
+                                            </div>
+
+                                            {/* Content */}
+                                            <div className="flex-1 pb-6">
+                                                <div className="flex items-start justify-between mb-2">
+                                                    <div>
+                                                        <h4 className="font-bold text-white mb-1">{contribution.task}</h4>
+                                                        <div className="flex items-center gap-2 text-sm text-gray-500">
+                                                            <span>{contribution.campaign}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className="text-right">
+                                                        <div className="text-lg font-bold text-green-400">+{contribution.rp} RP</div>
+                                                        <div className="text-xs text-gray-500">{contribution.date}</div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        );
-                                    })}
-                                </div>
-                            ) : (
-                                <div className="p-8 text-center text-gray-500">
-                                    No active submissions found.
-                                </div>
-                            )}
-                            <div className="p-4 border-t border-white/5">
-                                <Button variant="ghost" className="w-full text-xs uppercase tracking-widest text-muted-foreground hover:text-white">
-                                    View Repository
-                                </Button>
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                         </CardContent>
                     </Card>
-
-                    {/* Skill / Tag Cloud (Visual filler for now) */}
-                    <div className="p-6 rounded-2xl border border-white/5 bg-[#0c0c0c]">
-                        <h3 className="text-sm font-bold text-white uppercase tracking-widest mb-4">Verified Skills</h3>
-                        <div className="flex flex-wrap gap-2">
-                            {['Governance', 'Solidity', 'Design', 'Community Mgmt', 'Strategy'].map(skill => (
-                                <span key={skill} className="px-3 py-1 rounded bg-white/5 border border-white/5 text-xs text-gray-400">
-                                    {skill}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
