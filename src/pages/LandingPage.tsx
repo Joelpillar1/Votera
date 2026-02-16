@@ -122,7 +122,7 @@ const Hero = ({ onEnterApp }: { onEnterApp: () => void }) => {
     const duplicatedOrgs = [...ORGANIZATIONS, ...ORGANIZATIONS];
 
     return (
-        <section className="relative w-full h-[110vh] md:h-screen overflow-hidden bg-black flex flex-col items-center justify-start pt-32 md:pt-40 text-center px-4">
+        <section className="relative w-full h-[90vh] md:h-screen overflow-hidden bg-black flex flex-col items-center justify-start pt-28 md:pt-40 text-center px-4">
             {/* Background Effects */}
             <div className="absolute inset-0 bg-black pointer-events-none">
                 <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] pointer-events-none animate-pulse duration-3000 opacity-40"></div>
@@ -131,13 +131,13 @@ const Hero = ({ onEnterApp }: { onEnterApp: () => void }) => {
             </div>
 
             {/* Content */}
-            <div className="relative z-40 flex flex-col items-center w-full px-6 lg:px-[130px] mx-auto mb-12 md:mb-20">
+            <div className="relative z-40 flex flex-col items-center w-full px-6 lg:px-[130px] mx-auto mb-0 md:mb-20">
                 {/* Tagline */}
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ type: "spring", stiffness: 100, damping: 20 }}
-                    className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-mono text-primary-foreground backdrop-blur-sm"
+                    className="mb-6 md:mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-mono text-primary-foreground backdrop-blur-sm"
                 >
                     <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
                     Participation-Driven Coordination
@@ -161,7 +161,7 @@ const Hero = ({ onEnterApp }: { onEnterApp: () => void }) => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2, type: "spring", stiffness: 100, damping: 20 }}
-                    className="mt-6 max-w-2xl text-base md:text-lg text-gray-400 font-light leading-relaxed"
+                    className="mt-4 md:mt-6 max-w-2xl text-base md:text-lg text-gray-400 font-light leading-relaxed"
                 >
                     Voterax is a reputation-powered coordination layer for fair decision-making, campaign governance, and merit-based participation across Web2 and Web3 institutions.
                 </motion.p>
@@ -171,7 +171,7 @@ const Hero = ({ onEnterApp }: { onEnterApp: () => void }) => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3, type: "spring", stiffness: 100, damping: 20 }}
-                    className="mt-10 flex flex-col sm:flex-row items-center gap-4 z-50"
+                    className="mt-6 md:mt-10 flex flex-col sm:flex-row items-center gap-4 z-50"
                 >
                     <Button
                         onClick={() => onEnterApp('signup')}
@@ -190,7 +190,7 @@ const Hero = ({ onEnterApp }: { onEnterApp: () => void }) => {
             </div>
 
             {/* Scrolling Organization Logos */}
-            <div className="absolute bottom-0 left-0 w-full h-[35vh] md:h-[40vh] pointer-events-none z-10 flex flex-col items-center justify-center gap-8 pb-12 [mask-image:linear-gradient(to_bottom,transparent_0%,black_30%,black_70%,transparent_100%)]">
+            <div className="absolute bottom-0 left-0 w-full h-[22vh] md:h-[40vh] pointer-events-none z-10 flex flex-col items-center justify-center gap-4 md:gap-8 pb-4 md:pb-12 [mask-image:linear-gradient(to_bottom,transparent_0%,black_30%,black_70%,transparent_100%)]">
                 {/* First Row - Scrolling Left to Right */}
                 <div className="w-full overflow-hidden">
                     <motion.div
