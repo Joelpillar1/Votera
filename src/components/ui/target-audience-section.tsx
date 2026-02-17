@@ -69,7 +69,7 @@ const GraphVisual = () => (
 export const TargetAudienceSection = () => {
     return (
         <section className="py-16 px-6 lg:px-[130px] bg-transparent relative z-10">
-            <div className="max-w-[1400px] mx-auto mb-20">
+            <div className="w-full mb-20">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}

@@ -87,19 +87,19 @@ export const WhyReputationSection = () => {
             {/* Subtle Grid Background */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black,transparent)] pointer-events-none" />
 
-            <div className="max-w-6xl mx-auto relative z-10">
-                {/* Header Section */}
-                <div className="mb-24 text-center">
+            <div className="w-full relative z-10 grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-12 lg:gap-24 items-start">
+                {/* Header Section (Left) */}
+                <div className="text-left">
                     <motion.div
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         className="inline-block"
                     >
-                        <h2 className="text-5xl md:text-7xl font-bold font-display text-white mb-6 leading-none">
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold font-display text-white mb-6 leading-none">
                             <span className="text-transparent bg-clip-text bg-gradient-to-br from-gray-500 to-gray-700">From Capital</span>
                             <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-300 to-white">To Contribution</span>
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-300 to-white whitespace-nowrap">To Contribution</span>
                         </h2>
                     </motion.div>
                     <motion.p
@@ -107,31 +107,34 @@ export const WhyReputationSection = () => {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2 }}
-                        className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto font-body font-light leading-relaxed"
+                        className="text-gray-400 text-lg md:text-xl max-w-lg font-body font-light leading-relaxed mt-6"
                     >
                         The fundamental shift in how power is distributed in decentralized systems.
                     </motion.p>
                 </div>
 
-                {/* Comparison Labels (Desktop) */}
-                <div className="hidden md:grid grid-cols-2 mb-10 text-center text-xs font-bold uppercase tracking-[0.2em] text-gray-500 font-sans">
-                    <div>The Old Standard</div>
-                    <div className="text-primary">The Voterax Standard</div>
-                </div>
+                {/* Right Column: Labels + List */}
+                <div className="relative">
+                    {/* Comparison Labels (Desktop) */}
+                    <div className="hidden md:grid grid-cols-2 mb-10 text-center text-xs font-bold uppercase tracking-[0.2em] text-gray-500 font-sans">
+                        <div>The Old Standard</div>
+                        <div className="text-primary">The Voterax Standard</div>
+                    </div>
 
-                {/* Comparison List */}
-                <div className="space-y-4 relative">
-                    {/* Connection Line */}
-                    <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/5 to-transparent -translate-x-1/2 hidden md:block" />
+                    {/* Comparison List */}
+                    <div className="space-y-4 relative">
+                        {/* Connection Line */}
+                        <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/5 to-transparent -translate-x-1/2 hidden md:block" />
 
-                    {legacyItems.map((item, i) => (
-                        <ComparisonRow
-                            key={i}
-                            index={i}
-                            leftItem={item}
-                            rightItem={voteraxItems[i]}
-                        />
-                    ))}
+                        {legacyItems.map((item, i) => (
+                            <ComparisonRow
+                                key={i}
+                                index={i}
+                                leftItem={item}
+                                rightItem={voteraxItems[i]}
+                            />
+                        ))}
+                    </div>
                 </div>
             </div>
         </section>
