@@ -42,7 +42,7 @@ const SolutionCard = ({ title, value, description, icon: Icon, delay = 0 }: Solu
 
 export const SolutionSection = () => {
     return (
-        <section id="solution" className="py-24 px-6 lg:px-[130px] bg-black relative overflow-hidden">
+        <section id="solution" className="py-16 px-6 lg:px-[130px] bg-transparent relative z-10 overflow-hidden">
             <div className="w-full mx-auto">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
 
@@ -78,7 +78,7 @@ export const SolutionSection = () => {
                             transition={{ delay: 0.1 }}
                             className="text-xl text-gray-400 leading-relaxed mb-10"
                         >
-                            We replaced "pay-to-win" with "prove-to-win". Voterax introduces a coordination model where your verifiable on-chain work earns you Reputation Points (RP), and that reputation determines your influence.
+                            We replaced "pay-to-win" with "prove-to-win". Voterax introduces a coordination model where your verifiable on-chain work earns you reputation, and that reputation determines your influence.
                         </motion.p>
 
                         <motion.div

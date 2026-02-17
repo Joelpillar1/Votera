@@ -10,7 +10,9 @@ import {
     Hexagon,
     Activity,
     User,
-    Bell
+    Bell,
+    Menu,
+    X
 } from 'lucide-react';
 import {
     DropdownMenu,
@@ -30,6 +32,8 @@ interface NavbarProps {
 }
 
 const Navbar: React.FC<NavbarProps> = ({ className, activePath = 'dashboard', onNavigate, walletAddress, onConnect }) => {
+    const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
+
     const navItems = [
         { name: 'Dashboard', icon: LayoutDashboard, path: 'dashboard' },
         { name: 'Campaigns', icon: Hexagon, path: 'campaigns' },
@@ -47,8 +51,8 @@ const Navbar: React.FC<NavbarProps> = ({ className, activePath = 'dashboard', on
 
             {/* Logo Section */}
             <div className="flex items-center gap-3 cursor-pointer" onClick={() => onNavigate('dashboard')}>
-                <div className="h-9 w-9 rounded-full bg-primary flex items-center justify-center shadow-[0_0_15px_rgba(99,102,241,0.5)]">
-                    <span className="font-bold text-white text-lg">V</span>
+                <div className="h-9 w-9 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(99,102,241,0.5)]">
+                    <img src="/src/images/IMG_4553 png.png" alt="Voterax Logo" className="h-full w-full object-contain" />
                 </div>
                 <div className="flex flex-col">
                     <span className="text-xl font-bold tracking-tight font-display text-white leading-none">Voterax</span>
@@ -78,10 +82,19 @@ const Navbar: React.FC<NavbarProps> = ({ className, activePath = 'dashboard', on
 
             {/* Notifications & User Profile */}
             <div className="flex items-center gap-4">
+                {/* Mobile Menu Button */}
+                <Button
+                    variant="ghost"
+                    className="md:hidden h-10 w-10 rounded-full p-0 hover:bg-white/10 text-white"
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                >
+                    {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                </Button>
+
                 {/* Notifications Dropdown */}
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0 hover:bg-white/10 text-muted-foreground hover:text-white transition-colors">
+                        <Button variant="ghost" className="hidden md:flex relative h-10 w-10 rounded-full p-0 hover:bg-white/10 text-muted-foreground hover:text-white transition-colors">
                             <div className="absolute top-2.5 right-2.5 h-2 w-2 rounded-full bg-red-500 ring-2 ring-[#020202]"></div>
                             <Bell className="h-5 w-5" />
                         </Button>
@@ -124,37 +137,102 @@ const Navbar: React.FC<NavbarProps> = ({ className, activePath = 'dashboard', on
                             <span className="text-sm font-bold text-white">{formatAddress(walletAddress)}</span>
                         </div>
 
-                        <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                                <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0 overflow-hidden hover:ring-2 hover:ring-primary/50 transition-all">
-                                    <div className="h-full w-full bg-gradient-to-br from-indigo-500 to-purple-600">
-                                        <span className="flex h-full w-full items-center justify-center text-xs font-mono font-bold text-white bg-black/10">
-                                            {walletAddress.substring(2, 4)}
-                                        </span>
-                                    </div>
-                                </Button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent className="w-56 bg-[#0a0a0a] border-white/10 text-white" align="end">
-                                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                                <DropdownMenuSeparator className="bg-white/10" />
-                                <DropdownMenuItem className="cursor-pointer hover:bg-white/10 focus:bg-white/10" onClick={() => onNavigate('profile')}>
-                                    <User className="mr-2 h-4 w-4" />
-                                    <span>Profile</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuItem className="cursor-pointer hover:bg-white/10 focus:bg-white/10" onClick={() => onNavigate('settings')}>
-                                    <Settings className="mr-2 h-4 w-4" />
-                                    <span>Settings</span>
-                                </DropdownMenuItem>
-                                <DropdownMenuSeparator className="bg-white/10" />
-                                <DropdownMenuItem className="cursor-pointer text-red-400 hover:text-red-300 hover:bg-red-900/20 focus:bg-red-900/20" onClick={() => onNavigate('landing')}>
-                                    <LogOut className="mr-2 h-4 w-4" />
-                                    <span>Disconnect</span>
-                                </DropdownMenuItem>
-                            </DropdownMenuContent>
-                        </DropdownMenu>
+                        <div className="hidden md:block">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button variant="ghost" className="relative h-10 w-10 rounded-full p-0 overflow-hidden hover:ring-2 hover:ring-primary/50 transition-all">
+                                        <div className="h-full w-full bg-gradient-to-br from-indigo-500 to-purple-600">
+                                            <span className="flex h-full w-full items-center justify-center text-xs font-mono font-bold text-white bg-black/10">
+                                                {walletAddress.substring(2, 4)}
+                                            </span>
+                                        </div>
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent className="w-56 bg-[#0a0a0a] border-white/10 text-white" align="end">
+                                    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                                    <DropdownMenuSeparator className="bg-white/10" />
+                                    <DropdownMenuItem className="cursor-pointer hover:bg-white/10 focus:bg-white/10" onClick={() => onNavigate('profile')}>
+                                        <User className="mr-2 h-4 w-4" />
+                                        <span>Profile</span>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem className="cursor-pointer hover:bg-white/10 focus:bg-white/10" onClick={() => onNavigate('settings')}>
+                                        <Settings className="mr-2 h-4 w-4" />
+                                        <span>Settings</span>
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator className="bg-white/10" />
+                                    <DropdownMenuItem className="cursor-pointer text-red-400 hover:text-red-300 hover:bg-red-900/20 focus:bg-red-900/20" onClick={() => onNavigate('landing')}>
+                                        <LogOut className="mr-2 h-4 w-4" />
+                                        <span>Disconnect</span>
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </div>
                     </>
                 )}
             </div>
+
+            {/* Mobile Menu Drawer */}
+            {mobileMenuOpen && (
+                <div className="md:hidden absolute top-20 left-0 right-0 bg-[#020202] border-b border-white/10 shadow-xl z-50">
+                    <div className="flex flex-col p-4 space-y-2">
+                        {navItems.map((item) => (
+                            <Button
+                                key={item.path}
+                                variant="ghost"
+                                className={cn(
+                                    "w-full justify-start gap-3 h-12 text-base font-medium transition-all",
+                                    activePath === item.path
+                                        ? "bg-white/10 text-white"
+                                        : "text-muted-foreground hover:text-white hover:bg-white/5"
+                                )}
+                                onClick={() => {
+                                    onNavigate(item.path);
+                                    setMobileMenuOpen(false);
+                                }}
+                            >
+                                <item.icon className={cn("h-5 w-5", activePath === item.path ? "text-primary" : "text-muted-foreground")} />
+                                {item.name}
+                            </Button>
+                        ))}
+
+                        <div className="pt-4 border-t border-white/10 space-y-2">
+                            <Button
+                                variant="ghost"
+                                className="w-full justify-start gap-3 h-12 text-base font-medium text-muted-foreground hover:text-white hover:bg-white/5"
+                                onClick={() => {
+                                    onNavigate('profile');
+                                    setMobileMenuOpen(false);
+                                }}
+                            >
+                                <User className="h-5 w-5 text-muted-foreground" />
+                                Profile
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                className="w-full justify-start gap-3 h-12 text-base font-medium text-muted-foreground hover:text-white hover:bg-white/5"
+                                onClick={() => {
+                                    onNavigate('settings');
+                                    setMobileMenuOpen(false);
+                                }}
+                            >
+                                <Settings className="h-5 w-5 text-muted-foreground" />
+                                Settings
+                            </Button>
+                            <Button
+                                variant="ghost"
+                                className="w-full justify-start gap-3 h-12 text-base font-medium text-red-400 hover:text-red-300 hover:bg-red-900/20"
+                                onClick={() => {
+                                    onNavigate('landing');
+                                    setMobileMenuOpen(false);
+                                }}
+                            >
+                                <LogOut className="h-5 w-5" />
+                                Disconnect
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </nav>
     );
 };

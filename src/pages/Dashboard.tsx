@@ -66,7 +66,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
                     </div>
 
                     {/* Footer / Meta */}
-                    <div className="pt-4 flex items-center gap-6 mt-auto">
+                    <div className="pt-4 flex flex-wrap items-center gap-4 md:gap-6 mt-auto">
                         <div className="flex items-center gap-3">
                             <div className="flex -space-x-3">
                                 {[
@@ -85,7 +85,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
                             </div>
                         </div>
 
-                        <div className="h-8 w-px bg-white/10"></div>
+                        <div className="h-8 w-px bg-white/10 hidden sm:block"></div>
 
                         <div className="flex items-center gap-2">
                             <div className="h-8 w-8 rounded-lg bg-yellow-500/20 text-yellow-500 flex items-center justify-center">
@@ -97,7 +97,7 @@ const Dashboard: React.FC<DashboardProps> = ({ onNavigate }) => {
                             </div>
                         </div>
 
-                        <Button onClick={() => onNavigate('campaigns')} size="sm" className="ml-auto rounded-full px-6 bg-white text-black hover:bg-gray-200">
+                        <Button onClick={() => onNavigate('campaigns')} size="sm" className="w-full sm:w-auto sm:ml-auto rounded-full px-6 bg-white text-black hover:bg-gray-200">
                             Start Voting <ArrowUpRight className="ml-2 h-3 w-3" />
                         </Button>
                     </div>

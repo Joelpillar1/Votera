@@ -240,7 +240,7 @@ export const UseCasesSection = () => {
     ];
 
     return (
-        <section id="use-cases" className="py-24 px-6 lg:px-[130px] bg-black relative">
+        <section id="use-cases" className="py-16 px-6 lg:px-[130px] bg-transparent relative z-10">
 
             <div className="w-full mx-auto relative z-10">
                 <div className="mb-20 max-w-2xl">

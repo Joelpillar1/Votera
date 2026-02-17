@@ -37,8 +37,8 @@ const Navbar = ({ onEnterApp, currentView, onViewChange }: {
             <div className="flex items-center gap-4">
                 <div className="relative group cursor-pointer" onClick={() => onViewChange('home')}>
                     <div className="absolute -inset-2 bg-gradient-to-r from-primary to-secondary rounded-full blur-lg opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                    <div className="relative h-10 w-10 bg-black border border-white/10 rounded-xl flex items-center justify-center overflow-hidden">
-                        <span className="font-bold text-white text-xl font-display relative z-10">V</span>
+                    <div className="relative h-10 w-10 rounded-xl flex items-center justify-center overflow-hidden">
+                        <img src="/src/images/IMG_4553 png.png" alt="Voterax Logo" className="h-full w-full object-contain" />
                     </div>
                 </div>
                 <div className="flex flex-col cursor-pointer" onClick={() => onViewChange('home')}>
@@ -276,13 +276,30 @@ const CoinsIcon = ({ className }: { className?: string }) => (
 // TargetAudience Component Replaced
 
 
+const PremiumBackground = () => (
+    <div className="fixed inset-0 z-0 pointer-events-none">
+        {/* Deep Space Base */}
+        <div className="absolute inset-0 bg-[#020202]" />
+
+        {/* Architectural Grid - Top Fade */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:linear-gradient(to_bottom,black_40%,transparent_100%)] opacity-80" />
+
+        {/* Atmospheric Lighting */}
+        <div className="absolute top-[-20%] left-[20%] w-[1000px] h-[1000px] bg-primary/10 rounded-full blur-[150px] mix-blend-screen opacity-40 animate-pulse duration-[8000ms]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[800px] h-[800px] bg-purple-900/10 rounded-full blur-[120px] mix-blend-screen opacity-30" />
+    </div>
+);
+
 const TrustSection = () => {
     return (
-        <section className="py-24 px-6 bg-black text-center">
-            <div className="max-w-4xl mx-auto p-12 rounded-[3rem] bg-white/5 border border-white/5 backdrop-blur-sm">
-                <h2 className="text-3xl font-bold text-white mb-4 font-display">Trust & Principles</h2>
-                <p className="text-gray-400 mb-12 text-sm">Voterax proves contribution without exposing contributors.</p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-left">
+        <section className="py-16 px-6 relative z-10">
+            <div className="max-w-4xl mx-auto p-12 rounded-[3rem] bg-white/[0.02] border border-white/[0.05] backdrop-blur-md relative overflow-hidden">
+                {/* Subtle sheen */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none" />
+
+                <h2 className="text-3xl font-bold text-white mb-4 font-display relative z-10">Trust & Principles</h2>
+                <p className="text-gray-400 mb-12 text-sm relative z-10">Voterax proves contribution without exposing contributors.</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 text-left relative z-10">
                     {[
                         "No governance tokens",
                         "No selling of reputation",
@@ -306,17 +323,15 @@ const TrustSection = () => {
 };
 
 const FinalCTA = ({ onEnterApp }: { onEnterApp: (mode?: 'login' | 'signup') => void }) => (
-    <section className="py-24 relative px-6 lg:px-[130px] overflow-hidden flex items-center justify-center bg-zinc-950">
-        {/* Background Gradients & Grid */}
+    <section className="py-20 relative px-6 lg:px-[130px] overflow-hidden flex items-center justify-center">
+        {/* Background Gradients & Grid - Local override for extra punch */}
         <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[120px] opacity-20"></div>
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] opacity-20"></div>
         </div>
 
         <div className="relative w-full max-w-5xl mx-auto text-center z-10">
             <div className="flex flex-col items-center">
-
-
                 <motion.h2
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -377,11 +392,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ onConnect }) => {
     const [currentView, setCurrentView] = useState<'home' | 'campaigns'>('home');
 
     return (
-        <div className="min-h-screen bg-black text-white font-sans selection:bg-primary/30 overflow-x-hidden scroll-smooth">
+        <div className="min-h-screen bg-[#020202] text-white font-sans selection:bg-primary/30 overflow-x-hidden scroll-smooth relative">
+            <PremiumBackground />
+
             <Navbar onEnterApp={onConnect} currentView={currentView} onViewChange={setCurrentView} />
 
             {currentView === 'home' ? (
-                <>
+                <div className="relative z-10">
                     <Hero onEnterApp={onConnect} />
                     <ProblemSection />
                     <SolutionSection />
@@ -390,14 +407,16 @@ const LandingPage: React.FC<LandingPageProps> = ({ onConnect }) => {
                     <TargetAudienceSection />
                     <TrustSection />
                     <FinalCTA onEnterApp={onConnect} />
-                </>
+                </div>
             ) : (
-                <div className="pt-32 px-6 lg:px-[130px] min-h-screen pb-20">
+                <div className="pt-32 px-6 lg:px-[130px] min-h-screen pb-20 relative z-10">
                     <Campaigns onNavigate={onConnect} isPublic={true} />
                 </div>
             )}
 
-            <Footer />
+            <div className="relative z-10">
+                <Footer />
+            </div>
         </div>
     );
 };

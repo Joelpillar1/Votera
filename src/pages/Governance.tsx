@@ -204,37 +204,65 @@ const Governance: React.FC<GovernanceProps> = ({ onNavigate }) => {
             </Dialog>
 
             {/* Header / Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="col-span-1 md:col-span-2 space-y-2">
+            <div className="space-y-6">
+                <div>
                     <h1 className="text-4xl font-bold font-display text-white">Campaign Forum</h1>
-                    <p className="text-muted-foreground text-lg">
+                    <p className="text-muted-foreground text-lg mt-2">
                         Shape the future of the protocol. Your Reputation Points (RP) determine your influence.
                     </p>
                 </div>
-                <Card className="bg-gradient-to-br from-indigo-900/20 to-black border-indigo-500/20">
-                    <CardContent className="p-6 flex items-center justify-between">
-                        <div>
-                            <div className="text-sm text-indigo-300 font-medium mb-1">Your Voting Power</div>
-                            <div className="text-3xl font-bold text-white flex items-baseline gap-2">
-                                450 <span className="text-sm text-gray-400 font-normal">RP</span>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="relative overflow-hidden rounded-2xl bg-[#080808] border border-white/5 p-6 flex flex-col justify-center group hover:border-indigo-500/30 transition-colors">
+                        <div className="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <Vote className="h-24 w-24 text-indigo-500" />
+                        </div>
+                        <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 rounded-lg bg-indigo-500/10 text-indigo-400">
+                                <Vote className="h-5 w-5" />
                             </div>
+                            <span className="text-sm font-medium text-gray-400">Your Voting Power</span>
                         </div>
-                        <div className="h-12 w-12 rounded-full bg-indigo-500/20 flex items-center justify-center text-indigo-400">
-                            <Vote className="h-6 w-6" />
+                        <div className="text-4xl font-bold font-display text-white tracking-tight">450 <span className="text-lg text-gray-500">RP</span></div>
+                    </div>
+
+                    <div className="relative overflow-hidden rounded-2xl bg-[#080808] border border-white/5 p-6 flex flex-col justify-center group hover:border-green-500/30 transition-colors">
+                        <div className="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <ThumbsUp className="h-24 w-24 text-green-500" />
                         </div>
-                    </CardContent>
-                </Card>
+                        <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 rounded-lg bg-green-500/10 text-green-400">
+                                <ThumbsUp className="h-5 w-5" />
+                            </div>
+                            <span className="text-sm font-medium text-gray-400">Active Proposals</span>
+                        </div>
+                        <div className="text-4xl font-bold font-display text-white tracking-tight">{mockProposals.filter(p => p.status === 'active').length}</div>
+                    </div>
+
+                    <div className="relative overflow-hidden rounded-2xl bg-[#080808] border border-white/5 p-6 flex flex-col justify-center group hover:border-purple-500/30 transition-colors">
+                        <div className="absolute right-0 top-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <Activity className="h-24 w-24 text-purple-500" />
+                        </div>
+                        <div className="flex items-center gap-3 mb-2">
+                            <div className="p-2 rounded-lg bg-purple-500/10 text-purple-400">
+                                <Activity className="h-5 w-5" />
+                            </div>
+                            <span className="text-sm font-medium text-gray-400">Total Proposals</span>
+                        </div>
+                        <div className="text-4xl font-bold font-display text-white tracking-tight">{mockProposals.length}</div>
+                    </div>
+                </div>
             </div>
 
             {/* Filters */}
-            <div className="flex gap-2 border-b border-white/10 pb-4">
+            <div className="flex p-1 bg-white/5 rounded-xl border border-white/5 w-fit">
                 {(['all', 'active', 'passed', 'failed'] as const).map((f) => (
                     <button
                         key={f}
                         onClick={() => setFilter(f)}
-                        className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${filter === f
-                            ? 'bg-white text-black'
-                            : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white'
+                        className={`px-6 py-2.5 rounded-lg text-sm font-bold transition-all ${filter === f
+                            ? 'bg-[#080808] text-white shadow-lg border border-white/10'
+                            : 'text-gray-500 hover:text-white hover:bg-white/5'
                             }`}
                     >
                         {f.charAt(0).toUpperCase() + f.slice(1)} <span className="text-xs opacity-50 ml-1">({mockProposals.filter(p => f === 'all' || p.status === f).length})</span>
@@ -251,65 +279,63 @@ const Governance: React.FC<GovernanceProps> = ({ onNavigate }) => {
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.1 }}
                     >
-                        <Card className="group hover:border-white/20 transition-all cursor-pointer">
-                            <CardContent className="p-6">
-                                <div className="flex flex-col md:flex-row gap-6">
-                                    {/* Status Badge */}
-                                    <div className="flex flex-col items-center justify-start pt-1 min-w-[80px]">
-                                        <div className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest border mb-2 w-full text-center ${getStatusColor(proposal.status)}`}>
-                                            {proposal.status}
-                                        </div>
-                                        <div className="text-xs text-gray-500 font-mono">{proposal.id}</div>
+                        <div className="group rounded-2xl bg-[#0a0a0a] border border-white/5 hover:border-white/10 transition-all cursor-pointer p-6">
+                            <div className="flex flex-col md:flex-row gap-6">
+                                {/* Status Badge */}
+                                <div className="flex flex-col items-center justify-start pt-1 min-w-[80px]">
+                                    <div className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest border mb-2 w-full text-center ${getStatusColor(proposal.status)}`}>
+                                        {proposal.status}
                                     </div>
+                                    <div className="text-xs text-gray-500 font-mono">{proposal.id}</div>
+                                </div>
 
-                                    {/* Main Content */}
-                                    <div className="flex-1 space-y-3">
-                                        <div className="flex items-center justify-between">
-                                            <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors">{proposal.title}</h3>
-                                            <div className="flex items-center gap-2 text-xs text-gray-500 font-mono">
-                                                <Clock className="h-3 w-3" /> {proposal.endTime}
-                                            </div>
-                                        </div>
-
-                                        <p className="text-gray-400 text-sm leading-relaxed">{proposal.description}</p>
-
-                                        {/* Voting Progress Bar */}
-                                        <div className="pt-2 space-y-2">
-                                            <div className="flex justify-between text-xs font-medium">
-                                                <span className="text-green-400 flex items-center gap-1"><ThumbsUp className="h-3 w-3" /> {((proposal.votesFor / (proposal.votesFor + proposal.votesAgainst)) * 100).toFixed(1)}% For</span>
-                                                <span className="text-red-400 flex items-center gap-1"><ThumbsDown className="h-3 w-3" /> {((proposal.votesAgainst / (proposal.votesFor + proposal.votesAgainst)) * 100).toFixed(1)}% Against</span>
-                                            </div>
-                                            <div className="h-2 bg-white/5 rounded-full overflow-hidden flex">
-                                                <div className="bg-green-500 h-full" style={{ width: `${(proposal.votesFor / (proposal.votesFor + proposal.votesAgainst)) * 100}%` }}></div>
-                                                <div className="bg-red-500 h-full" style={{ width: `${(proposal.votesAgainst / (proposal.votesFor + proposal.votesAgainst)) * 100}%` }}></div>
-                                            </div>
-                                            <div className="text-xs text-gray-600 text-right font-mono">
-                                                Total Votes: {(proposal.votesFor + proposal.votesAgainst).toLocaleString()}
-                                            </div>
+                                {/* Main Content */}
+                                <div className="flex-1 space-y-3">
+                                    <div className="flex items-start justify-between gap-4">
+                                        <h3 className="text-xl font-bold text-white group-hover:text-primary transition-colors">{proposal.title}</h3>
+                                        <div className="flex items-center gap-2 text-xs text-gray-500 font-mono shrink-0">
+                                            <Clock className="h-3 w-3" /> {proposal.endTime}
                                         </div>
                                     </div>
 
-                                    {/* Action Area */}
-                                    <div className="flex flex-col justify-between items-end border-l border-white/5 pl-6 min-w-[140px]">
-                                        <div className="text-xs text-gray-500 mb-2">Proposer</div>
-                                        <div className="flex items-center gap-2 text-sm text-white font-medium mb-auto">
-                                            <div className="h-6 w-6 rounded-full bg-gradient-to-br from-purple-500 to-indigo-500"></div>
-                                            {proposal.proposer}
-                                        </div>
+                                    <p className="text-gray-400 text-sm leading-relaxed">{proposal.description}</p>
 
-                                        <Button
-                                            size="sm"
-                                            className="w-full gap-2 mt-4"
-                                            disabled={proposal.status !== 'active'}
-                                            onClick={() => setSelectedProposal(proposal)}
-                                        >
-                                            {proposal.status === 'active' ? 'Vote Now' : 'View Results'}
-                                            {proposal.status === 'active' && <Vote className="h-3 w-3" />}
-                                        </Button>
+                                    {/* Voting Progress Bar */}
+                                    <div className="pt-2 space-y-2">
+                                        <div className="flex justify-between text-xs font-medium">
+                                            <span className="text-green-400 flex items-center gap-1"><ThumbsUp className="h-3 w-3" /> {((proposal.votesFor / (proposal.votesFor + proposal.votesAgainst)) * 100).toFixed(1)}% For</span>
+                                            <span className="text-red-400 flex items-center gap-1"><ThumbsDown className="h-3 w-3" /> {((proposal.votesAgainst / (proposal.votesFor + proposal.votesAgainst)) * 100).toFixed(1)}% Against</span>
+                                        </div>
+                                        <div className="h-2 bg-white/5 rounded-full overflow-hidden flex">
+                                            <div className="bg-green-500 h-full" style={{ width: `${(proposal.votesFor / (proposal.votesFor + proposal.votesAgainst)) * 100}%` }}></div>
+                                            <div className="bg-red-500 h-full" style={{ width: `${(proposal.votesAgainst / (proposal.votesFor + proposal.votesAgainst)) * 100}%` }}></div>
+                                        </div>
+                                        <div className="text-xs text-gray-600 text-right font-mono">
+                                            Total Votes: {(proposal.votesFor + proposal.votesAgainst).toLocaleString()}
+                                        </div>
                                     </div>
                                 </div>
-                            </CardContent>
-                        </Card>
+
+                                {/* Action Area */}
+                                <div className="flex flex-col justify-between items-end border-l border-white/5 pl-6 min-w-[140px]">
+                                    <div className="text-xs text-gray-500 mb-2">Proposer</div>
+                                    <div className="flex items-center gap-2 text-sm text-white font-medium mb-auto">
+                                        <div className="h-6 w-6 rounded-full bg-gradient-to-br from-purple-500 to-indigo-500"></div>
+                                        {proposal.proposer}
+                                    </div>
+
+                                    <Button
+                                        size="sm"
+                                        className="w-full gap-2 mt-4"
+                                        disabled={proposal.status !== 'active'}
+                                        onClick={() => setSelectedProposal(proposal)}
+                                    >
+                                        {proposal.status === 'active' ? 'Vote Now' : 'View Results'}
+                                        {proposal.status === 'active' && <Vote className="h-3 w-3" />}
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
                     </motion.div>
                 ))}
             </div>

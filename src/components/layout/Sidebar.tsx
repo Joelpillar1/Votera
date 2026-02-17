@@ -31,8 +31,8 @@ const Sidebar: React.FC<SidebarProps> = ({ className, activePath = 'dashboard', 
         <div className={cn("glass-panel h-screen overflow-hidden w-64 flex flex-col fixed left-0 top-0 z-50 border-r border-white/10", className)}>
             <div className="p-8 pb-4">
                 <div className="flex items-center gap-2">
-                    <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center shadow-[0_0_15px_rgba(99,102,241,0.5)]">
-                        <span className="font-bold text-white text-lg">V</span>
+                    <div className="h-8 w-8 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(99,102,241,0.5)]">
+                        <img src="/src/images/IMG_4553 png.png" alt="Voterax Logo" className="h-full w-full object-contain" />
                     </div>
                     <span className="text-2xl font-bold tracking-tight font-display text-white">Voterax</span>
                 </div>

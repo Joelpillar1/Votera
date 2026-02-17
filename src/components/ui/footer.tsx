@@ -42,9 +42,8 @@ export const Footer = () => {
                     {/* Brand Column - Spans 2 cols on large screens */}
                     <div className="lg:col-span-2 space-y-8 pr-0 lg:pr-12">
                         <div className="flex items-center gap-2">
-                            <div className="relative h-10 w-10 bg-black border border-white/10 rounded-xl flex items-center justify-center overflow-hidden">
-                                <span className="font-bold text-white text-xl font-display relative z-10">V</span>
-                                <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-transparent"></div>
+                            <div className="relative h-10 w-10 rounded-xl flex items-center justify-center overflow-hidden">
+                                <img src="/src/images/IMG_4553 png.png" alt="Voterax Logo" className="h-full w-full object-contain" />
                             </div>
                             <div className="flex flex-col">
                                 <span className="font-bold text-xl tracking-tight text-white font-display leading-none">Voterax</span>

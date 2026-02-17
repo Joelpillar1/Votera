@@ -45,23 +45,23 @@ const Campaigns: React.FC<CampaignsProps> = ({ onNavigate, isPublic = false, use
     return (
         <div className="space-y-8 animate-in fade-in duration-500">
             {/* Promotional Banner */}
-            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-900/30 via-purple-900/20 to-black border border-white/10 p-8">
+            <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-indigo-900/30 via-purple-900/20 to-black border border-white/10 p-6 md:p-8">
                 <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
 
-                <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                    <div className="flex items-center gap-4">
+                <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                    <div className="flex items-start gap-4">
                         <div className="h-14 w-14 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20 shrink-0">
                             <Trophy className="h-7 w-7 text-primary" />
                         </div>
-                        <div>
+                        <div className="flex-1">
                             <h3 className="text-xl font-bold text-white mb-1">Complete Campaigns to Unlock Reputation</h3>
                             <p className="text-sm text-gray-400">Participate in governance and earn RP to increase your voting power</p>
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-4">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full lg:w-auto">
                         <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/10">
-                            <div className="h-10 w-10 rounded-lg bg-purple-500/10 flex items-center justify-center">
+                            <div className="h-10 w-10 rounded-lg bg-purple-500/10 flex items-center justify-center shrink-0">
                                 <BadgeCheck className="h-5 w-5 text-purple-400" />
                             </div>
                             <div>
@@ -71,7 +71,7 @@ const Campaigns: React.FC<CampaignsProps> = ({ onNavigate, isPublic = false, use
                         </div>
 
                         <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/10">
-                            <div className="h-10 w-10 rounded-lg bg-yellow-500/10 flex items-center justify-center">
+                            <div className="h-10 w-10 rounded-lg bg-yellow-500/10 flex items-center justify-center shrink-0">
                                 <Zap className="h-5 w-5 text-yellow-400" />
                             </div>
                             <div>

@@ -2,110 +2,136 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { CheckCircle2, XCircle, DollarSign, Users, Zap, Eye, Scale, Clock, ShieldCheck, HeartHandshake } from "lucide-react";
+import { DollarSign, TrendingDown, Zap, Users, Shield, Target, Award, Scale, Sparkles, AlertCircle, ArrowRight, X, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const ComparisonItem = ({ text, isPositive, index }: { text: string; isPositive: boolean; index: number }) => (
-    <motion.li
-        initial={{ opacity: 0, x: -10 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
-        transition={{ delay: index * 0.1 }}
-        className="flex items-center gap-4 text-lg p-3 rounded-xl hover:bg-white/5 transition-all duration-300 hover:scale-105 cursor-default"
-    >
-        <div className={cn(
-            "h-6 w-6 rounded-full flex items-center justify-center border",
-            isPositive
-                ? "bg-primary/20 border-primary text-primary"
-                : "bg-red-500/10 border-red-500/50 text-red-500"
-        )}>
-            {isPositive ? <CheckCircle2 size={14} /> : <XCircle size={14} />}
-        </div>
-        <span className={cn(
-            "font-medium",
-            isPositive ? "text-white" : "text-gray-400 decoration-slate-600"
-        )}>
-            {text}
-        </span>
-    </motion.li>
-);
+const ComparisonRow = ({
+    leftItem,
+    rightItem,
+    index
+}: {
+    leftItem: { icon: React.ElementType, title: string, description: string },
+    rightItem: { icon: React.ElementType, title: string, description: string },
+    index: number
+}) => {
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1 }}
+            className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-12 relative group"
+        >
+            {/* Divider Line (Desktop) */}
+            <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-px bg-white/[0.03] -translate-x-1/2 group-last:bg-gradient-to-b group-last:from-white/[0.03] group-last:to-transparent" />
 
+            {/* Light orb in center */}
+            <div className="hidden md:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-1.5 w-1.5 rounded-full bg-white/10 group-hover:bg-primary transition-colors duration-500 shadow-[0_0_10px_rgba(109,40,217,0)] group-hover:shadow-[0_0_10px_rgba(109,40,217,0.5)]" />
+
+            {/* Left: The Old Way (Red/Gray/Dim) */}
+            <div className="flex flex-row md:flex-row-reverse items-center gap-6 p-6 md:p-8 rounded-2xl md:bg-transparent bg-white/[0.02] border border-white/[0.02] md:border-none transition-all duration-500 hover:bg-white/[0.02] group-hover:opacity-50 hover:!opacity-100">
+                <div className="shrink-0 relative">
+                    <div className="h-12 w-12 rounded-full bg-white/[0.03] border border-white/5 flex items-center justify-center">
+                        <leftItem.icon className="h-5 w-5 text-gray-500" />
+                    </div>
+                    <div className="absolute -bottom-1 -right-1 h-5 w-5 bg-red-950/80 border border-red-500/30 rounded-full flex items-center justify-center">
+                        <X className="h-3 w-3 text-red-500" />
+                    </div>
+                </div>
+                <div className="md:text-right">
+                    <h4 className="text-gray-300 font-bold text-lg mb-1.5 font-display tracking-tight">{leftItem.title}</h4>
+                    <p className="text-gray-500 text-sm leading-relaxed font-body font-light">{leftItem.description}</p>
+                </div>
+            </div>
+
+            {/* Right: The New Way (Primary/Bright) */}
+            <div className="flex flex-row items-center gap-6 p-6 md:p-8 rounded-2xl bg-white/[0.02] border border-white/5 md:border-primary/10 transition-all duration-500 hover:bg-white/[0.04] relative overflow-hidden group/item">
+                <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover/item:opacity-100 transition-opacity duration-500" />
+
+                <div className="shrink-0 relative z-10">
+                    <div className="h-12 w-12 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shadow-[0_0_15px_-3px_rgba(109,40,217,0.3)]">
+                        <rightItem.icon className="h-5 w-5 text-primary" />
+                    </div>
+                    <div className="absolute -bottom-1 -right-1 h-5 w-5 bg-emerald-950/80 border border-emerald-500/30 rounded-full flex items-center justify-center">
+                        <Check className="h-3 w-3 text-emerald-500" />
+                    </div>
+                </div>
+                <div className="relative z-10">
+                    <h4 className="text-white font-bold text-lg mb-1.5 font-display tracking-tight">{rightItem.title}</h4>
+                    <p className="text-gray-400 text-sm leading-relaxed group-hover/item:text-gray-300 transition-colors font-body font-light">{rightItem.description}</p>
+                </div>
+            </div>
+        </motion.div>
+    );
+};
 
 export const WhyReputationSection = () => {
+    const legacyItems = [
+        { icon: DollarSign, title: "Capital & Whales", description: "Power and influence are defined solely by wallet size." },
+        { icon: TrendingDown, title: "Popularity Contests", description: "Influence is based on vanity metrics rather than work." },
+        { icon: Zap, title: "Bot Manipulation", description: "Automated systems game rewards through volume." },
+        { icon: Users, title: "Short-term Attention", description: "Systems optimized for quick extraction, not growth." },
+        { icon: AlertCircle, title: "Siloed History", description: "Your reputation is locked to one specific platform." }
+    ];
+
+    const voteraxItems = [
+        { icon: Shield, title: "Consistent Contribution", description: "Power is earned through proven, verifiable work." },
+        { icon: Target, title: "Long-term Participation", description: "Influence scales with your commitment over time." },
+        { icon: Award, title: "On-chain Accountability", description: "Every action is permanently verifiable on-chain." },
+        { icon: Scale, title: "Conviction & Context", description: "Decisions are weighted by your domain expertise." },
+        { icon: Sparkles, title: "Verifiable Portfolio", description: "Your reputation travels with you across all DAOs." }
+    ];
+
     return (
-        <section id="features" className="py-24 px-6 lg:px-[130px] bg-[#050505]">
-            <div className="w-full mx-auto">
-                {/* Header */}
-                <div className="text-center mb-20">
+        <section id="features" className="py-20 px-6 lg:px-[130px] bg-transparent relative z-10 overflow-hidden">
+            {/* Subtle Grid Background */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:100px_100px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,black,transparent)] pointer-events-none" />
+
+            <div className="max-w-6xl mx-auto relative z-10">
+                {/* Header Section */}
+                <div className="mb-24 text-center">
                     <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        className="inline-block"
+                    >
+                        <h2 className="text-5xl md:text-7xl font-bold font-display text-white mb-6 leading-none">
+                            <span className="text-transparent bg-clip-text bg-gradient-to-br from-gray-500 to-gray-700">From Capital</span>
+                            <br />
+                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-purple-300 to-white">To Contribution</span>
+                        </h2>
+                    </motion.div>
+                    <motion.p
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
+                        transition={{ delay: 0.2 }}
+                        className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto font-body font-light leading-relaxed"
                     >
-                        <h2 className="text-secondary text-sm font-mono tracking-widest uppercase mb-4">THE REPUTATION STANDARD</h2>
-                        <h2 className="text-4xl md:text-5xl font-bold font-display text-white mb-6">Why Reputation?</h2>
-                        <p className="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
-                            Reputation on Voterax is not just a number. It is earned, visible, and consequential power that cannot be bought.
-                        </p>
-                    </motion.div>
+                        The fundamental shift in how power is distributed in decentralized systems.
+                    </motion.p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16 items-stretch">
-                    {/* Old Way Card */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        className="group p-10 rounded-[2.5rem] bg-[#0A0A0A] border border-white/5 relative overflow-hidden flex flex-col hover:border-red-500/30 hover:shadow-[0_0_30px_-10px_rgba(239,68,68,0.2)] transition-all duration-500"
-                    >
-                        {/* Background subtle red glow */}
-                        <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-red-900/10 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
+                {/* Comparison Labels (Desktop) */}
+                <div className="hidden md:grid grid-cols-2 mb-10 text-center text-xs font-bold uppercase tracking-[0.2em] text-gray-500 font-sans">
+                    <div>The Old Standard</div>
+                    <div className="text-primary">The Voterax Standard</div>
+                </div>
 
-                        <div className="relative z-10">
-                            <div className="w-12 h-12 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center mb-6 text-red-500">
-                                <DollarSign size={24} />
-                            </div>
-                            <h3 className="text-2xl font-bold text-red-400 mb-2 font-display">Most Systems Reward</h3>
-                            <p className="text-gray-500 text-sm mb-10">Optimized for capital, not contribution.</p>
+                {/* Comparison List */}
+                <div className="space-y-4 relative">
+                    {/* Connection Line */}
+                    <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-white/5 to-transparent -translate-x-1/2 hidden md:block" />
 
-                            <ul className="space-y-6">
-                                {['Capital & Whales', 'Popularity Contests', 'Bot Speed', 'Short-term Attention'].map((item, i) => (
-                                    <ComparisonItem key={i} text={item} isPositive={false} index={i} />
-                                ))}
-                            </ul>
-                        </div>
-
-                        {/* Visual Noise */}
-                        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-10 mix-blend-overlay pointer-events-none"></div>
-                    </motion.div>
-
-                    {/* Voterax Way Card */}
-                    <motion.div
-                        initial={{ opacity: 0, x: 20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true }}
-                        className="group p-10 rounded-[2.5rem] bg-[#0E0514] border border-primary/20 relative overflow-hidden flex flex-col shadow-[0_0_50px_-20px_rgba(109,40,217,0.2)] hover:border-primary/50 hover:shadow-[0_0_50px_-10px_rgba(109,40,217,0.4)] transition-all duration-500"
-                    >
-                        {/* Background primary glow */}
-                        <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-primary/20 blur-[100px] rounded-full translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-
-                        <div className="relative z-10">
-                            <div className="w-12 h-12 rounded-2xl bg-primary/20 border border-primary/40 flex items-center justify-center mb-6 text-primary shadow-[0_0_20px_-5px_rgba(109,40,217,0.5)]">
-                                <Scale size={24} />
-                            </div>
-                            <h3 className="text-2xl font-bold text-primary mb-2 font-display">Voterax Rewards</h3>
-                            <p className="text-primary/60 text-sm mb-10">Optimized for long-term value alignment.</p>
-
-                            <ul className="space-y-6">
-                                {['Consistent Contribution', 'Long-term Participation', 'On-chain Accountability', 'Conviction & Context'].map((item, i) => (
-                                    <ComparisonItem key={i} text={item} isPositive={true} index={i} />
-                                ))}
-                            </ul>
-                        </div>
-
-                        {/* Visual Noise */}
-                        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay pointer-events-none"></div>
-                    </motion.div>
+                    {legacyItems.map((item, i) => (
+                        <ComparisonRow
+                            key={i}
+                            index={i}
+                            leftItem={item}
+                            rightItem={voteraxItems[i]}
+                        />
+                    ))}
                 </div>
             </div>
         </section>
